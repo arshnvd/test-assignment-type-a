@@ -9,6 +9,7 @@ RUN apk --update add --virtual build-dependencies \
                                 libxslt-dev \
                                 postgresql-dev \
                                 nodejs \
+                                nodejs-npm \
                                 tzdata \
                                 && rm -rf /var/cache/apk/*
 
@@ -16,15 +17,14 @@ RUN gem install bundler
 RUN bundle config build.nokogiri --use--system-libraries
 RUN npm install yarn -g
 
-# Configure main directory
+# Configure app directory
 RUN mkdir -p /app
 WORKDIR /app
 
 # Install app dependencies
-COPY Gemfile Gemfile.lock package.json yarn.lock ./
+COPY Gemfile Gemfile.lock package.json ./
 
-RUN bundle install --jobs 20 --retry 5 --without development test
-RUN yarn install --check-files
+RUN bundle install --jobs 20 --retry 5
 
 # Add project files
 COPY . ./
