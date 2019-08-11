@@ -12,6 +12,7 @@ class Invoice::BulkUpload < ApplicationRecord
   end
 
   def process
+    ProcessingJob.perform_later(id)
   end
 
   def _process
