@@ -5,7 +5,7 @@ class Invoice::BulkUpload < ApplicationRecord
 
   enum status: %i(uploaded processing processed)
 
-  after_create :process
+  after_create_commit :process
 
   def self.table_name_prefix
     'invoice_'

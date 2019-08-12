@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :invoices
+
+  namespace :invoice do
+    resources :bulk_uploads
+  end
+
+  root to: 'invoice/bulk_uploads#new'
 end

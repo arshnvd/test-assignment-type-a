@@ -1,0 +1,18 @@
+<div class="processing-container"></div>
+<div class="jumbotron py-4">
+  <h2>Invoice Bulk Upload</h2>
+  <hr class="my-4">
+  <p>Click choose to select a CSV file and hit upload.</p>
+  <%= form_with(scope: :invoice_bulk_upload, model: [@bulk_upload], data: { controller: 'invoice--bulk-upload' }) do |form| %>
+    <div class="file-info font-weight-bold my-2 d-none  more-options">
+      <span data-target="invoice--bulk-upload.uploadStatus"></span>
+      <span class="mr-3" data-target="invoice--bulk-upload.fileName"></span>
+      <span data-target="invoice--bulk-upload.fileSize"></span>
+    </div>
+    <label class="btn btn-outline-primary btn-lg my-0 mr-2">
+      Choose <%= form.file_field :file, class: 'd-none', accept: '.csv', direct_upload: true, data: { target: 'invoice--bulk-upload.file' } %>
+    </label>
+    <%= button_tag 'Cancel', class: "btn btn-outline-danger btn-lg my-0 mr-2 more-options d-none", data: { action: 'click->invoice--bulk-upload#cancel' } %>
+    <%= form.submit 'Upload', class: 'btn btn-primary btn-lg more-options d-none' %>
+<% end %>
+</div>
