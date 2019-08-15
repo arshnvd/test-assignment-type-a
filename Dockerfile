@@ -22,9 +22,11 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Install app dependencies
-COPY Gemfile Gemfile.lock package.json ./
+COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
 RUN bundle install --jobs 20 --retry 5
+
+RUN yarn install
 
 # Add project files
 COPY . ./
