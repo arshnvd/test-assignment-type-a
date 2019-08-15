@@ -26,8 +26,8 @@ class Invoice::BulkUpload < ApplicationRecord
       start_processing!(total)
 
       csv.with_index(2) do |row, i|
-        iid, amount, due_at  = row.fields
-        invoice             = Invoice.new(iid: iid, amount: amount, due_at: due_at)
+        internal_id, amount, due_at  = row.fields
+        invoice                      = Invoice.new(internal_id: internal_id, amount: amount, due_at: due_at)
 
         calculate_progress(total, i)
 
@@ -88,6 +88,10 @@ class Invoice::BulkUpload < ApplicationRecord
     end
 
     def broadcast(options)
+      # TODO relay broadcast through a background job.
+      # options = { uid: uid, **options }.transform_keys(&:to_s)
+      # BroadcastRelayJob.perform_later(options)
+
       ActionCable.server.broadcast("notifications:#{uid}", **options)
     end
 end

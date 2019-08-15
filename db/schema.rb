@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_142234) do
+ActiveRecord::Schema.define(version: 2019_08_15_133738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(version: 2019_08_11_142234) do
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.integer "iid"
+    t.integer "internal_id"
     t.decimal "amount"
     t.datetime "due_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "selling_price", default: "0.0"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -13,9 +13,9 @@
   <% @invoices.each do |invoice| %>
     <tr>
       <td><%= invoice.id %></td>
-      <td><%= invoice.iid %></td>
+      <td><%= invoice.internal_id %></td>
       <td><%= invoice.amount %></td>
-      <td><%= invoice.amount %></td>
+      <td><%= invoice.selling_price %></td>
       <td><%= l(invoice.due_at,  format: :iso_8601) %></td>
     </tr>
   <% end %>

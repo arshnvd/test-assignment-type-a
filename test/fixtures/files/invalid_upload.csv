@@ -1,4 +1,4 @@
-id,amount, due_at
+internal_id,amount, due_at
 1,ccc,2019-05-20
 ?,200.5,2019-05-10
 d,300,2019-05-01

@@ -19,6 +19,7 @@ export default class extends Controller {
   }
   displayErrors(errors) {
     if (errors.length) {
+      this.errorsTarget.innerHTML = '';
       for (let error of errors) {
         this.errorsTarget.innerHTML = this.errorsTarget.innerHTML + `<li class="text-danger">${error}</li>`;
       }
