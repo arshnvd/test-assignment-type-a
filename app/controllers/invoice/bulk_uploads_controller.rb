@@ -1,7 +1,7 @@
 class Invoice
   class BulkUploadsController < ApplicationController
     def index
-      @bulk_uploads = BulkUpload.with_attached_file.paginate(page: params[:page], per_page: 10)
+      @bulk_uploads = BulkUpload.ordered.paginated(params[:page])
     end
 
     def show

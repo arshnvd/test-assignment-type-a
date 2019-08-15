@@ -1,9 +1,14 @@
 class Invoice::BulkUpload < ApplicationRecord
+  PER_PAGE = 10
+
   store :report, accessors: %i(messages progress total processed failures), coder: JSON
 
   has_one_attached :file
 
   enum status: %i(uploaded processing processed)
+
+  scope :paginated, ->(page) { with_attached_file.paginate(page: page, per_page: PER_PAGE) }
+  scope :ordered, ->() { order(created_at: :desc) }
 
   after_create_commit :process
 
