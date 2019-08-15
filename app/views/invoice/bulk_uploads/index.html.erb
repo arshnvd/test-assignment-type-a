@@ -1,0 +1,39 @@
+<h4>Bulk Uploads</h4>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Size</th>
+    <th scope="col">File</th>
+    <th scope="col">Failures</th>
+    <th scope="col">Invoices</th>
+    <th scope="col">Uploaded</th>
+    <th scope="col">View</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @bulk_uploads.each.with_index(1) do |bulk_upload, index| %>
+    <tr>
+      <td><%= index %></td>
+      <td><%= number_to_human_size(bulk_upload.file.byte_size, precision: 2) %></td>
+      <td>
+        <%= link_to bulk_upload.file, class: 'font-weight-bold' do %>
+          <i class="fas fa-download mr-2"></i>
+          <%= bulk_upload.file.filename %>
+        <% end %>
+      </td>
+      <td class="<%= 'text-danger' unless bulk_upload.failures&.zero? %>">
+        <%= bulk_upload.failures %>
+      </td>
+      <td><%= bulk_upload.processed %></td>
+      <td><%= time_ago_in_words(bulk_upload.created_at) %> ago</td>
+      <td>
+        <%= link_to invoice_bulk_upload_path(bulk_upload) do %>
+          <i class="fas fa-eye mr-1"></i> View
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= will_paginate @bulk_uploads %>

@@ -1,10 +1,8 @@
 <ul class="list-group">
   <li class="list-group-item d-flex justify-content-between align-items-center">
-    Invoices
-    <span class="badge badge-primary badge-pill">14</span>
+    <%= link_to 'Invoices', invoices_path, class: 'text-dark' %>
   </li>
   <li class="list-group-item d-flex justify-content-between align-items-center">
-    Uploads
-    <span class="badge badge-primary badge-pill">2</span>
+    <%= link_to 'Uploads', invoice_bulk_uploads_path, class: 'text-dark' %>
   </li>
 </ul>

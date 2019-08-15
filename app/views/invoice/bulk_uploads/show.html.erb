@@ -1,0 +1,49 @@
+<div class="card border-secondary mb-3">
+  <div class="card-header">Uploaded <%= time_ago_in_words(@bulk_upload.created_at) %></div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-3 mb-2">
+        File
+      </div>
+      <div class="col-9 mb-2">
+        <%= link_to @bulk_upload.file, class: 'font-weight-bold' do %>
+          <i class="fas fa-download"></i>
+          <%= @bulk_upload.file.filename %>
+        <% end %>
+      </div>
+      <div class="col-3 mb-2">
+        Size
+      </div>
+      <div class="col-9 mb-2">
+        <%= number_to_human_size(@bulk_upload.file.byte_size, precision: 2) %>
+      </div>
+      <div class="col-3 mb-2">
+        Total Records
+      </div>
+      <div class="col-9 mb-2">
+        <%= @bulk_upload.total.to_i %>
+      </div>
+      <div class="col-3 mb-2">
+        Processed
+      </div>
+      <div class="col-9 mb-2">
+        <%= @bulk_upload.processed.to_i %>
+      </div>
+      <div class="col-3 mb-2">
+        Failures
+      </div>
+      <div class="col-9 mb-2">
+        <%= @bulk_upload.failures.to_i %>
+      </div>
+      <div class="col-3 mb-2">
+        Errors
+      </div>
+      <div class="col-9 text-danger mb-2">
+        <% Array.wrap(@bulk_upload.messages).each.with_index(1) do |error_msg, index| %>
+          #<%= index %> <%= error_msg %> <br>
+        <% end %>
+      </div>
+    </div>
+    <%= link_to 'Back', invoice_bulk_uploads_path, class: 'btn btn-primary' %>
+  </div>
+</div>

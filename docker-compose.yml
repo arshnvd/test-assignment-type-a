@@ -3,6 +3,7 @@ version: '3'
 volumes:
   data:
   bundle:
+  redis:
 
 services:
   db:
@@ -11,6 +12,12 @@ services:
       - data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+  redis:
+    image: redis:5.0.5-alpine
+    volumes:
+      - redis:/data
+    ports:
+      - 6379:6379
   web:
     build: .
     volumes:

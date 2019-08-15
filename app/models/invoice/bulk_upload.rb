@@ -18,7 +18,7 @@ class Invoice::BulkUpload < ApplicationRecord
   def _process
     temporary_file do |temp_file|
       failures  = 0
-      errors    = []
+      @_errors    = []
       options   = { headers: true, encoding: 'ISO-8859-1' }
       csv       = CSV.foreach(temp_file.path, **options)
       total     = csv.count
@@ -34,13 +34,17 @@ class Invoice::BulkUpload < ApplicationRecord
         next if invoice.save
 
         failures +=1
-        errors << "Line #{i} - #{invoice.errors.full_messages.join(',')}"
+        @_errors << "Line #{i} - #{invoice.errors.full_messages.join(',')}"
       end
 
-      report = { messages: errors, total: total, failures: failures, processed: (total - failures) }
+      report = { messages: @_errors, total: total, failures: failures, processed: (total - failures) }
 
       complete_processing!(report)
     end
+  end
+
+  def uid
+    to_gid.to_s
   end
 
   private
@@ -59,33 +63,31 @@ class Invoice::BulkUpload < ApplicationRecord
     def start_processing!(total)
       update(status: :processing)
 
-      ActiveSupport::Notifications.instrument(
-        'invoice.bulk_upload.processing.start', { id: id, total: total }
-      )
+      broadcast(uid: uid, action: status, total: total)
     end
 
     def complete_processing!(report)
       update(status: :processed, report: report)
 
-      ActiveSupport::Notifications.instrument(
-        'invoice.bulk_upload.processing.complete', { id: id, report: report }
-      )
+      broadcast(uid: uid, action: status, report: report)
     end
 
     def calculate_progress(total, current)
       progress = (100 / (total.to_f / current))
 
-      instrument_progress?(current) && instrument_progress(progress)
+      broadcast_progress?(current) && broadcast_progress(progress)
     end
 
-    def instrument_progress?(current)
-      # Instrument progress on every 10th record
+    def broadcast_progress?(current)
+      # Broadcast progress on every 10th record
       (current % 10).zero?
     end
 
-    def instrument_progress(progress)
-      ActiveSupport::Notifications.instrument(
-        'invoice.bulk_upload.processing.progress', { id: id, progress: progress }
-      )
+    def broadcast_progress(progress)
+      broadcast(uid: uid, action: :progress, progress: progress, errors: @_errors)
+    end
+
+    def broadcast(options)
+      ActionCable.server.broadcast("notifications:#{uid}", **options)
     end
 end

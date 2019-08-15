@@ -1,0 +1,24 @@
+<h4>Invoices</h4>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Internal Id</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Selling price</th>
+    <th scope="col">Due On</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @invoices.each do |invoice| %>
+    <tr>
+      <td><%= invoice.id %></td>
+      <td><%= invoice.iid %></td>
+      <td><%= invoice.amount %></td>
+      <td><%= invoice.amount %></td>
+      <td><%= l(invoice.due_at,  format: :iso_8601) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= will_paginate @invoices %>

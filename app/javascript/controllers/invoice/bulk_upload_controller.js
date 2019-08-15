@@ -15,6 +15,7 @@ export default class extends Controller {
 
     this.fileTarget.addEventListener('direct-upload:end', ()=> {
       this.uploadStatusTarget.innerHTML = `<i class="fas fa-check text-success mr-2"></i>`;
+      this.fileTarget.setAttribute('disabled', false);
     })
   }
 

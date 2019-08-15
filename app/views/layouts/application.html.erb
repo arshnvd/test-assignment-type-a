@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>TestAssignmentTypeA</title>
+    <%= tag.meta data: { environment: Rails.env } %>
+    <%= action_cable_meta_tag %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
