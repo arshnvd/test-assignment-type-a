@@ -12,6 +12,10 @@ Solution is mainly focused on best approach and code quality, a few things are s
 > NOTE for invoice *internal id*, to avoid confusion with ActiveRecord's *id* an `internal_id` column is added separately as a integer and it is assumed that it must be an integer not string.
 > also there is a sample-data.csv file for sample data (in case needed).
 
+### Overview
+
+At high-level when a CSV file is submitted via bulk upload page, it should be uploaded to cloud storage via direct upload (currently it's just local storage but can be changed in `storage.yml` make sure to configure CORS properly for your cloud provider).
+Once uploaded a database record is created, after creation a background job is triggered which downloads the file from cloud (as a temporary file) processes the CSV (creates invoices, selling price is calculated on before create invoice) and updates the progress bar in real time.
 
 #### Screenshots
 
@@ -23,10 +27,6 @@ Solution is mainly focused on best approach and code quality, a few things are s
 
 *View upload report*
 <img width="1337" alt="Screenshot 2019-08-15 at 11 17 30 PM" src="https://user-images.githubusercontent.com/18441501/63116377-eba42d80-bfb2-11e9-9ede-606088c422c2.png">
-### Overview
-
-At high-level when a CSV file is submitted via bulk upload page, it should be uploaded to cloud storage via direct upload (currently it's just local storage but can be changed in `storage.yml` make sure to configure CORS properly for your cloud provider).
-Once uploaded a database record is created, after creation a background job is triggered which downloads the file from cloud (as a temporary file) processes the CSV (creates invoices, selling price is calculated on before create invoice) and updates the progress bar in real time.
 
 # Test assignment: Type A
 
