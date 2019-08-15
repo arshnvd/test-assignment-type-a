@@ -1,3 +1,33 @@
+# Solution 
+
+Solution is mainly focused on best approach and code quality, a few things are skipped for simplicity.
+1. There is only one `docker-compose.yml`.
+2. User authentication is not implemented.
+
+### What can be improved
+1. right now most of the processing logic is inside `app/models/invoice/bulk_upload.rb` we can move it into a separate *service*.
+2. we can use a background job to relay ActionCable broadcast messages so that they are enqueued and accurately delivered in correct order.
+3. more test coverage, currently there are only model tests.
+
+> NOTE for invoice *internal id*, to avoid confusion with ActiveRecord's *id* an `internal_id` column is added separately as a integer and it is assumed that it must be an integer not string.
+> there is a sample-data.csv file for sample data (in case needed).
+
+
+#### Screenshots
+
+*Upload*
+![Screenshot 2019-08-15 at 11 02 13 PM](https://user-images.githubusercontent.com/18441501/63115724-4046a900-bfb1-11e9-974f-0023dd43a5d2.png)
+
+*All Uploads*
+<img width="1406" alt="Screenshot 2019-08-15 at 11 17 11 PM" src="https://user-images.githubusercontent.com/18441501/63116366-e515b600-bfb2-11e9-9e96-7c40bb6a6b46.png">
+
+*View upload report*
+<img width="1337" alt="Screenshot 2019-08-15 at 11 17 30 PM" src="https://user-images.githubusercontent.com/18441501/63116377-eba42d80-bfb2-11e9-9ede-606088c422c2.png">
+### Overview
+
+At high-level when a CSV file is submitted via bulk upload page, it should be uploaded to cloud using direct upload (currently it's just local storage but can be changed in `storage.yml` make sure to configure CORS properly for your cloud provider).
+Once uploaded a database record is created, after creation a background job is triggered which downloads the file from cloud (as a temporary file) processes the CSV (creates invoices, selling price is calculated on before create invoice) and updates the progress bar in real time.
+
 # Test assignment: Type A
 
 This is a test assignment. We have developed a simple assignment to imitate real system situation. Test assignment should show the candidate ability to system thinking, coding style, and code versioning skills.
