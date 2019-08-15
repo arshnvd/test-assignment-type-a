@@ -7,9 +7,7 @@
 
 (function() {
   this.App || (this.App = {});
-
-  // Connect only if user is signed in
-
+  
   document.addEventListener('DOMContentLoaded', function () {
     App.environment     = document.querySelector("[data-environment]").getAttribute('data-environment');
 
