@@ -6,11 +6,11 @@ Solution is mainly focused on best approach and code quality, a few things are s
 
 ### What can be improved
 1. right now most of the processing logic is inside `app/models/invoice/bulk_upload.rb` we can move it into a separate *service*.
-2. we can use a background job to relay ActionCable broadcast messages so that they are enqueued and accurately delivered in correct order.
+2. we can use a background job to relay ActionCable broadcast messages so that they are enqueued and delivered accurately in correct order.
 3. more test coverage, currently there are only model tests.
 
 > NOTE for invoice *internal id*, to avoid confusion with ActiveRecord's *id* an `internal_id` column is added separately as a integer and it is assumed that it must be an integer not string.
-> there is a sample-data.csv file for sample data (in case needed).
+> also there is a sample-data.csv file for sample data (in case needed).
 
 
 #### Screenshots
