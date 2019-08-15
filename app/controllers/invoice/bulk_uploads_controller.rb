@@ -5,7 +5,7 @@ class Invoice
     end
 
     def show
-      @bulk_upload = BulkUpload.find(params[:id])
+      @bulk_upload = BulkUpload.with_attached_file.find(params[:id])
     end
 
     def new
